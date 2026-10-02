@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>お支払いページへ移動します</title>
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding: 24px;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #000; color: #f5f5f7; }
+    .card { background: #1c1c1e !important; }
+    .btn-secondary { border-color: #3a3a3c !important; color: #f5f5f7 !important; }
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 24px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  }
+  .spinner {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 20px;
+    border: 3px solid rgba(120,120,128,0.2);
+    border-top-color: #06c755;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  h1 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #6e6e73;
+    margin: 0 0 24px;
+  }
+  @media (prefers-color-scheme: dark) { p { color: #98989d; } }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: #06c755;
+    color: #fff;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: #1d1d1f;
+    border: 1px solid #d2d2d7;
+  }
+  .error {
+    color: #ff3b30;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div id="loading">
+      <div class="spinner"></div>
+      <h1>お支払いページへ移動しています…</h1>
+      <p>自動で開かない場合は、下のボタンをタップしてください。</p>
+    </div>
+    <div id="notfound" style="display:none;">
+      <h1 class="error">リンクが見つかりませんでした</h1>
+      <p>URLをご確認のうえ、お手数ですが再度登録時のご案内からお進みください。</p>
+    </div>
+    <div id="buttons" style="display:none;"></div>
+  </div>
+
+<script>
+(function () {
+  // 許可するマガジンID(地域追加時はここに追記)
+  var MAGAZINES = {
+    sendai:  "mdafacac28548",
+    sapporo: "m47d893d92ed1"
+  };
+
+  var params = new URLSearchParams(window.location.search);
+  var key = params.get("m");
+  var magazineId = MAGAZINES[key];
+
+  var loadingEl = document.getElementById("loading");
+  var notfoundEl = document.getElementById("notfound");
+  var buttonsEl = document.getElementById("buttons");
+
+  if (!magazineId) {
+    loadingEl.style.display = "none";
+    notfoundEl.style.display = "block";
+    return;
+  }
+
+  var httpsUrl = "https://note.com/takone421/m/" + magazineId;
+  var safariUrl = "x-safari-https://note.com/takone421/m/" + magazineId;
+
+  // 手動用フォールバックリンクを常に表示しておく
+  buttonsEl.innerHTML =
+    '<a class="btn btn-primary" href="' + httpsUrl + '">決済ページを開く</a>' +
+    '<a class="btn btn-secondary" href="' + safariUrl + '">Safariで開く(iPhone)</a>';
+  buttonsEl.style.display = "block";
+
+  // 自動遷移を試みる(Safari強制スキーム → ダメなら素のURL)
+  try {
+    window.location.href = safariUrl;
+  } catch (e) {}
+
+  // 2秒後も現在のページに留まっていたら、素のURLへ自動フォールバック
+  setTimeout(function () {
+    if (document.hidden) return;
+    window.location.href = httpsUrl;
+  }, 2000);
+})();
+</script>
+</body>
+</html>
