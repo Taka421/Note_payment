@@ -102,8 +102,41 @@
 (function () {
   // 許可するマガジンID(地域追加時はここに追記)
   var MAGAZINES = {
-    sendai:  "md84bdf73240d",
-    sapporo: "mcdd52cd6fa65"
+    // 北海道・東北
+    sapporo:     "mcdd52cd6fa65", // 札幌
+    sendai:      "md84bdf73240d", // 仙台
+    // 東京都内
+    shinjuku:    "mde3df252ebab", // 新宿
+    shibuya:     "mf4cfbd79caac", // 渋谷
+    ikebukuro:   "macbb856e215a", // 池袋・大塚
+    shimbashi:   "mc0ade286f221", // 新橋・品川
+    akihabara:   "mde47c6545220", // 秋葉原
+    // kinshicho: "",            // 錦糸町(審査中・通ったらIDを入れて行頭の // を外す)
+    kitasenju:   "m4941d598a2a0", // 北千住
+    nakano:      "m613867c6678a", // 中野・下北沢
+    tama:        "m5466852939d5", // 多摩・西東京
+    // 東京近郊
+    yokohama:    "m18c336048151", // 横浜
+    kawasaki:    "m1e8d62f530d2", // 川崎
+    omiya:       "mebc6f43943c0", // 大宮
+    chiba:       "m53f4b0e27a80", // 千葉・津田沼
+    kashiwa:     "m4372d127282e", // 柏・松戸
+    funabashi:   "m7068ba09cb82", // 船橋・市川
+    // 中部
+    nagoya:      "m9bbb707b25dd", // 名古屋
+    hamamatsu:   "ma5e0065ac67a", // 浜松
+    kanazawa:    "mea5f0b672da7", // 金沢
+    niigata:     "mcb744d1df4b0", // 新潟
+    // 関西
+    osakakita:   "mcc3500bd543e", // 大阪キタ
+    osakaminami: "m61eec63eebed", // 大阪ミナミ
+    kyoto:       "m41d408662e45", // 京都
+    kobe:        "mca280f50a13f", // 神戸
+    // 中国・四国・九州
+    hiroshima:   "m6e334016f353", // 広島
+    okayama:     "md7c7e40da64c", // 岡山
+    fukuoka:     "md0d6e6047913", // 福岡
+    okinawa:     "m0ff66c7247f1"  // 沖縄
   };
 
   var params = new URLSearchParams(window.location.search);
