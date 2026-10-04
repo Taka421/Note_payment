@@ -121,24 +121,14 @@
   }
 
   var httpsUrl = "https://note.com/takone421/m/" + magazineId;
-  var safariUrl = "x-safari-https://note.com/takone421/m/" + magazineId;
 
   // 手動用フォールバックリンクを常に表示しておく
   buttonsEl.innerHTML =
-    '<a class="btn btn-primary" href="' + httpsUrl + '">決済ページを開く</a>' +
-    '<a class="btn btn-secondary" href="' + safariUrl + '">Safariで開く(iPhone)</a>';
+    '<a class="btn btn-primary" href="' + httpsUrl + '">決済ページを開く</a>';
   buttonsEl.style.display = "block";
 
-  // 自動遷移を試みる(Safari強制スキーム → ダメなら素のURL)
-  try {
-    window.location.href = safariUrl;
-  } catch (e) {}
-
-  // 2秒後も現在のページに留まっていたら、素のURLへ自動フォールバック
-  setTimeout(function () {
-    if (document.hidden) return;
-    window.location.href = httpsUrl;
-  }, 2000);
+  // noteの決済ページへ自動遷移
+  window.location.href = httpsUrl;
 })();
 </script>
 </body>
